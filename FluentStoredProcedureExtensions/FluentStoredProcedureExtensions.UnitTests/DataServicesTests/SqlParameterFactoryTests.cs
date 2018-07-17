@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using FluentAssertions;
 using FluentStoredProcedureExtensions.Core.Abstract;
 using FluentStoredProcedureExtensions.Infrastructure.Data;
@@ -26,7 +25,7 @@ namespace FluentStoredProcedureExtensions.UnitTests.DataServicesTests
 
             _mockCollectionToDataTableConverter
                 .Setup(converter => converter.ConvertToDataTable(It.IsAny<IList<FakeEmployee>>()))
-                .Returns(GetDataTableResult());
+                .Returns(FakeDataTable.GetDataTable);
         }
 
         [TearDown]
@@ -149,7 +148,7 @@ namespace FluentStoredProcedureExtensions.UnitTests.DataServicesTests
         {
             //arrange
             var parameterName = "FalconMilleniumCrew";
-            var parameterValue = GetTestData();
+            var parameterValue = FakeCollectionData.GetTestData();
             //act
             var result = _sqlParameterFactory.BuildUserDefinedTableTypeParameter(parameterName, parameterValue);
             var parameterValueAsDataTable = result.Value as DataTable;
@@ -163,28 +162,6 @@ namespace FluentStoredProcedureExtensions.UnitTests.DataServicesTests
 
             parameterValueAsDataTable.Columns[0].ColumnName.Should().Be("Id");
             parameterValueAsDataTable.Columns[1].ColumnName.Should().Be("Name");
-        }
-
-        private DataTable GetDataTableResult()
-        {
-            var tableData = GetTestData();
-            var result = new DataTable();
-
-            result.Columns.Add("Id", typeof(int));
-            result.Columns.Add("Name", typeof(string));
-            result.Rows.Add(tableData.First().Id, tableData.First().Name);
-            result.Rows.Add(tableData.Last().Id, tableData.Last().Name);
-
-            return result;
-        }
-
-        private List<FakeEmployee> GetTestData()
-        {
-            return new List<FakeEmployee>
-            {
-                new FakeEmployee { Id = 1, Name = "Chewbacca" },
-                new FakeEmployee { Id = 2, Name = "Han Solo" }
-            };
         }
     }
 }
