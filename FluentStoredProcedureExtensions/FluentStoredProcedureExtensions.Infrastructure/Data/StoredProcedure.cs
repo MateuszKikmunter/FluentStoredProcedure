@@ -13,8 +13,10 @@ namespace FluentStoredProcedureExtensions.Infrastructure.Data
         public string StoredProcedureText { get; private set; }
         public IList<SqlParameter> SqlParametersCollection { get; }
 
-        protected StoredProcedure()
+        protected StoredProcedure(ISqlParameterFactory sqlParameterFactory, IList<SqlParameter> sqlParametersCollection)
         {
+            SqlParametersCollection = sqlParametersCollection ?? new List<SqlParameter>();
+            _sqlParameterFactory = sqlParameterFactory;
         }
 
         public StoredProcedure(ISqlParameterFactory sqlParameterFactory)
@@ -66,7 +68,7 @@ namespace FluentStoredProcedureExtensions.Infrastructure.Data
 
         private IStoredProcedure CreateNewStoredProcedure()
         {
-            var storedProcedure = new StoredProcedure(_sqlParameterFactory);
+            var storedProcedure = new StoredProcedure(_sqlParameterFactory, SqlParametersCollection);
             storedProcedure.SetStoredProcedureText(StoredProcedureText);
 
             return storedProcedure;
@@ -74,16 +76,13 @@ namespace FluentStoredProcedureExtensions.Infrastructure.Data
 
         private void AppendParameterToCommandText(string parameterName)
         {
-            StoredProcedureText += $" @{parameterName}, ";
+            StoredProcedureText += SqlParametersCollection.Count >= 1 ? $",@{ parameterName }" : $" @{ parameterName }";
         }
 
         private void ConfigureParamAndAddToCollection(SqlParameter sqlParameter, Action<SqlParameter> configureParam)
         {
-            if (!SqlParametersCollection.Contains(sqlParameter))
-            {
-                configureParam?.Invoke(sqlParameter);
-                SqlParametersCollection.Add(sqlParameter);
-            }
+            configureParam?.Invoke(sqlParameter);
+            SqlParametersCollection.Add(sqlParameter);
         }
     }
 }
