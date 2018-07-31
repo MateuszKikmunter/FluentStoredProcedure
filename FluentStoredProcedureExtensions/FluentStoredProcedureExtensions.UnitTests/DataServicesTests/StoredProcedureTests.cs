@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using FluentAssertions;
 using FluentStoredProcedureExtensions.Core.Abstract;
 using FluentStoredProcedureExtensions.Infrastructure.Data;
+using FluentStoredProcedureExtensions.UnitTests.Helpers;
 using Moq;
 using NUnit.Framework;
 
@@ -25,7 +28,14 @@ namespace FluentStoredProcedureExtensions.UnitTests.DataServicesTests
             _storedProcedure.SetStoredProcedureText("uspHighPerformatStoredProcedure");
 
             _mockSqlParameterFactory.Setup(factory => factory.CreateParameter(It.IsAny<string>()))
-                .Returns(new SqlParameter("@Parameter", 123));  
+                .Returns(new SqlParameter("@Parameter", 123));
+
+            _mockSqlParameterFactory.Setup(factory => factory.CreateParameter(It.IsAny<string>(), It.IsAny<object>()))
+                .Returns(new SqlParameter("@Parameter", "param-value"));
+
+            _mockSqlParameterFactory.Setup(factory =>
+                    factory.BuildUserDefinedTableTypeParameter(It.IsAny<string>(), It.IsAny<IList<FakeEmployee>>()))
+                .Returns(new SqlParameter("@Parameter", FakeDataTable.GetDataTable()));
         }
 
         [TearDown]
@@ -49,7 +59,7 @@ namespace FluentStoredProcedureExtensions.UnitTests.DataServicesTests
         public void SetStoredProcedureText_CorrectInput_ShouldSetStoredProcedureText()
         {
             //arrange
-            var text = "uspHighPerformantStoredProcedure";
+            var text = "my-super-duper-stored-procedure";
 
             //act
             _storedProcedure.SetStoredProcedureText(text);
@@ -103,8 +113,88 @@ namespace FluentStoredProcedureExtensions.UnitTests.DataServicesTests
             result.StoredProcedureText.Should().Be("uspHighPerformatStoredProcedure @Parameter,@Parameter,@Parameter");
             result.SqlParametersCollection.Should().NotBeNullOrEmpty();
             result.SqlParametersCollection.Count.Should().Be(3);
-            result.SqlParametersCollection.Select(p => p.ParameterName.Should().Be("@Parameter"));
-            result.SqlParametersCollection.Select(p => p.Value.Should().Be(123));
+            result.SqlParametersCollection.Should().OnlyContain(p => p.ParameterName.Equals("@Parameter"));
+            result.SqlParametersCollection.Should().OnlyContain(p => (int)p.Value == 123);
+        }
+
+        [Test]
+        public void WithSqlParam_AdditionalConfiguration_ShouldCreateParameters()
+        {
+            //arrange
+            var parameterValue = "nevermind-it-comes-from-factory-mock";
+
+            //act
+            var result = _storedProcedure
+                .WithSqlParam("Parameter", parameterValue, parameter =>
+                {
+                    parameter.Direction = ParameterDirection.Output;
+                    parameter.DbType = DbType.String;
+                    parameter.Size = 100;
+                })
+                .WithSqlParam("Parameter", parameterValue);
+
+            //assert
+            result.StoredProcedureText.Should().Be("uspHighPerformatStoredProcedure @Parameter,@Parameter");
+
+            result.SqlParametersCollection.Count.Should().Be(2);
+
+            result.SqlParametersCollection[0].ParameterName.Should().Be("@Parameter");
+            result.SqlParametersCollection[0].Direction.Should().Be(ParameterDirection.Output);
+            result.SqlParametersCollection[0].DbType.Should().Be(DbType.String);
+            result.SqlParametersCollection[0].Size.Should().Be(100);
+
+            result.SqlParametersCollection[1].ParameterName.Should().Be("@Parameter");
+            result.SqlParametersCollection[1].Value.Should().Be("param-value");
+        }
+
+        [Test]
+        public void WithUserDefinedDataTableSqlParam_EmptyStringAsParamName_ShouldThrow()
+        {
+            //arrange
+            var paramName = string.Empty;
+
+            //act
+            Action result = () => _storedProcedure.WithUserDefinedDataTableSqlParam(paramName, new List<string>());
+
+            //assert
+            result.Should().Throw<ArgumentException>();
+        }
+
+        [Test]
+        public void WithUserDefinedDataTableSqlParam_EmptyCollectionAsParamValue_ShouldThrow()
+        {
+            //arrange
+            var paramName = "blah";
+
+            //act
+            Action result = () => _storedProcedure.WithUserDefinedDataTableSqlParam(paramName, new List<string>());
+
+            //assert
+            result.Should().Throw<ArgumentException>();
+        }
+
+        [Test]
+        public void WithUserDefinedDataTableSqlParam_CorrectInput_ShouldCreateParameter()
+        {
+            //arrange
+            var paramName = "Parameter";
+
+            //act
+            var result = _storedProcedure.WithUserDefinedDataTableSqlParam(paramName, FakeCollectionData.GetTestData());
+
+            //assert
+            result.Should().NotBeNull();
+            result.StoredProcedureText.Should().Be("uspHighPerformatStoredProcedure @Parameter");
+            result.SqlParametersCollection[0].ParameterName.Should().Be("@Parameter");
+            result.SqlParametersCollection.Count.Should().Be(1);
+
+            var parameterValueAsDataTable = result.SqlParametersCollection[0].Value as DataTable;
+            parameterValueAsDataTable.Rows.Count.Should().Be(2);
+            parameterValueAsDataTable.Columns.Count.Should().Be(2);
+
+            parameterValueAsDataTable.Columns[0].ColumnName.Should().Be("Id");
+            parameterValueAsDataTable.Columns[1].ColumnName.Should().Be("Name");
+
         }
     }
 }
