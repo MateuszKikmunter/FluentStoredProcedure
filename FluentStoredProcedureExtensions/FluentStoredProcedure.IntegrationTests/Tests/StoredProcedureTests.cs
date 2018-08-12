@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using FluentStoredProcedure.IntegrationTests.Context;
 using FluentStoredProcedure.IntegrationTests.Entities;
@@ -43,6 +44,7 @@ namespace FluentStoredProcedure.IntegrationTests.Tests
             SqlScriptRunner.ClearDatabase();
         }
 
+        #region Synchronous Code
         [Test]
         public void WithSqlParam_Get_ShouldExecuteStoredProcedureAndReturnEntities()
         {
@@ -130,8 +132,8 @@ namespace FluentStoredProcedure.IntegrationTests.Tests
                     Name = "Jerry"
                 }
             };
-            //act
 
+            //act
             storedProcedure.WithUserDefinedDataTableSqlParam("Employees", employeesToAdd, param => param.TypeName = "dbo.EmployeeTableType");
             var rowsAffected = _context.ExecuteSqlCommand(storedProcedure);
 
@@ -139,6 +141,108 @@ namespace FluentStoredProcedure.IntegrationTests.Tests
             rowsAffected.Should().Be(2);
             _context.Employees.ToList().Count.Should().Be(4);
         }
+        #endregion
+
+        #region Async Code
+
+        [Test]
+        public async Task WithSqlParam_GetAsync_ShouldExecuteStoredProcedureAndReturnEntities()
+        {
+            //arrange
+            var storedProcedure = _storedProcedureFactory.CreateStoredProcedure("GetEmployeeByName");
+
+            //act
+
+            storedProcedure.WithSqlParam("EmployeeName", "Luke Skywalker");
+            var result = await _context.FromSqlAsync<Employee>(storedProcedure);
+
+            //assert
+
+            result.Should().NotBeNullOrEmpty();
+            result.Count().Should().Be(1);
+            result.First().Name.Should().Be("Luke Skywalker");
+        }
+
+        [Test]
+        public async Task GetAsync_StoredProcedureWithoutParameters_ShouldExecuteStoredProcedureAndReturnEntities()
+        {
+            //arrange
+            var storedProcedure = _storedProcedureFactory.CreateStoredProcedure("GetAllEmployees");
+
+            //act
+            var result = await _context.FromSqlAsync<Employee>(storedProcedure);
+
+            //assert
+
+            result.Should().NotBeNullOrEmpty();
+            result.Count().Should().Be(2);
+        }
+
+        [Test]
+        public async Task WithSqlParam_DeleteAsync_ShouldExecuteStoredProcedureAndReturnNumberOfAffectedRows()
+        {
+            //arrange
+            var storedProcedure = _storedProcedureFactory.CreateStoredProcedure("DeleteEmployeeById");
+
+            //act
+            var employeeToDelete = _context.Employees.First();
+            storedProcedure.WithSqlParam("EmployeeId", employeeToDelete.Id);
+            var rowsAffected = await _context.ExecuteSqlCommandAsync(storedProcedure);
+
+            //assert
+            rowsAffected.Should().Be(1);
+            _context.Employees.ToList().Count.Should().Be(1);
+        }
+
+        [Test]
+        public async Task WithUserDefinedDataTableSqlParam_UpdateAsync_ShouldExecuteStoredProcedureAndReturnNumberOfAffectedRows()
+        {
+            //arrange
+            var storedProcedure = _storedProcedureFactory.CreateStoredProcedure("UpdateEmployees");
+
+            //act
+            var employees = _context.Employees.ToList();
+            employees.First().Name = "Chewbacca";
+            employees.Last().Name = "Han Solo";
+
+            storedProcedure.WithUserDefinedDataTableSqlParam("Employees", employees, param => param.TypeName = "dbo.EmployeeTableType");
+
+            var rowsAffected = await _context.ExecuteSqlCommandAsync(storedProcedure);
+            var employeesAfterUpdate = _context.Employees.ToList();
+
+            //assert
+            rowsAffected.Should().Be(2);
+            employeesAfterUpdate.First().Name.Should().Be(employees.First().Name);
+            employeesAfterUpdate.Last().Name.Should().Be(employees.Last().Name);
+        }
+
+        [Test]
+        public async Task WithUserDefinedDataTableSqlParam_CreateAsync_ShouldExecuteStoredProcedureAndReturnNumberOfAffectedRows()
+        {
+            //arrange
+            var storedProcedure = _storedProcedureFactory.CreateStoredProcedure("CreateEmployees");
+            var employeesToAdd = new List<Employee>
+            {
+                new Employee
+                {
+                    Name = "Tom"
+                },
+                new Employee
+                {
+                    Name = "Jerry"
+                }
+            };
+
+            //act
+            storedProcedure.WithUserDefinedDataTableSqlParam("Employees", employeesToAdd, param => param.TypeName = "dbo.EmployeeTableType");
+            var rowsAffected = await _context.ExecuteSqlCommandAsync(storedProcedure);
+
+            //assert
+            rowsAffected.Should().Be(2);
+            _context.Employees.ToList().Count.Should().Be(4);
+        }
+
+        #endregion
 
         private void SeedDatabase()
         {
