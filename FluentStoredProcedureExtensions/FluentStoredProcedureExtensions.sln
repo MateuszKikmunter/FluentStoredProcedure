@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentStoredProcedureExtens
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentStoredProcedureExtensions.UnitTests", "FluentStoredProcedureExtensions.UnitTests\FluentStoredProcedureExtensions.UnitTests.csproj", "{37103EC0-0BCF-45A5-BB30-5352DBEC6797}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentStoredProcedure.IntegrationTests", "FluentStoredProcedure.IntegrationTests\FluentStoredProcedure.IntegrationTests.csproj", "{FA5E43C6-449B-4FF9-B109-108CBC70E9EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentStoredProcedure.IntegrationTests", "FluentStoredProcedure.IntegrationTests\FluentStoredProcedure.IntegrationTests.csproj", "{FA5E43C6-449B-4FF9-B109-108CBC70E9EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentStoredProcedureExtensions.WebUI", "FluentStoredProcedureExtensions.WebUI\FluentStoredProcedureExtensions.WebUI.csproj", "{2AFA362F-147B-4700-9A57-37091AF120CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{FA5E43C6-449B-4FF9-B109-108CBC70E9EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA5E43C6-449B-4FF9-B109-108CBC70E9EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA5E43C6-449B-4FF9-B109-108CBC70E9EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AFA362F-147B-4700-9A57-37091AF120CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AFA362F-147B-4700-9A57-37091AF120CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AFA362F-147B-4700-9A57-37091AF120CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AFA362F-147B-4700-9A57-37091AF120CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
