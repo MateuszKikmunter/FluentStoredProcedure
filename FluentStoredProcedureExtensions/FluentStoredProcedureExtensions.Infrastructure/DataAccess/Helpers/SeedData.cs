@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using FluentStoredProcedureExtensions.Core.Entities;
 using FluentStoredProcedureExtensions.Infrastructure.DataAccess.Contexts;
 using Microsoft.EntityFrameworkCore;
