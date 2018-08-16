@@ -36,11 +36,12 @@ BEGIN
 	DELETE FROM Employees WHERE Id = @Id;
 END
 
--- Create GetEmployee Stored Procedure
+-- Create CreateEmployee Stored Procedure
 
 GO
-CREATE PROCEDURE dbo.GetEmployee(@Id INT)
+CREATE PROCEDURE dbo.CreateEmployee(@Name VARCHAR(155), @Email VARCHAR(255))
 AS
 BEGIN
-	SELECT * FROM dbo.Employees WHERE Id = @Id;
+	INSERT INTO dbo.Employees (Name, Email)
+	VALUES (@Name, @Email);
 END

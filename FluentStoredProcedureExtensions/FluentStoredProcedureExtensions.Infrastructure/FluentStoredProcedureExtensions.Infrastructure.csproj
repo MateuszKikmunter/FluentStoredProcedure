@@ -14,4 +14,10 @@
     <ProjectReference Include="..\FluentStoredProcedureExtensions\FluentStoredProcedureExtensions.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="DataAccess\SqlScripts\CreateEmployeeCrudActions.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
