@@ -20,5 +20,31 @@
     },
     // Optionally generate .map file
     "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/lib/bootstrap/css/bootstrap.min.css",
+    "inputFiles": [
+      "node_modules/bootstrap/dist/css/bootstrap.min.css"
+    ],
+    "minify": { "enabled": false }
+  },
+  {
+    "outputFileName": "wwwroot/lib/bootstrap/js/bootstrap.min.js",
+    "inputFiles": [
+      "node_modules/bootstrap/dist/js/bootstrap.min.js"
+    ],
+    "minify": { "enabled": false }
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery/jquery-3.3.1.min.js",
+    "inputFiles": [
+      "node_modules/jquery/dist/jquery.min.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/popper/popper.min.js",
+    "inputFiles": [
+      "node_modules/popper.js/dist/umd/popper.min.js"
+    ]
   }
 ]

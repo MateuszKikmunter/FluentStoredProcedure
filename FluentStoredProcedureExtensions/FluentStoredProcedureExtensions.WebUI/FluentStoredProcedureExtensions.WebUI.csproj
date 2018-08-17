@@ -16,4 +16,9 @@
     <ProjectReference Include="..\FluentStoredProcedureExtensions.Infrastructure\FluentStoredProcedureExtensions.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\bootstrap\js\" />
+    <Folder Include="wwwroot\lib\jquery\" />
+  </ItemGroup>
+
 </Project>
