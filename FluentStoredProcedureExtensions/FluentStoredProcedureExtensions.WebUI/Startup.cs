@@ -1,8 +1,8 @@
-﻿using FluentStoredProcedureExtensions.Core.Abstract;
+﻿using AutoMapper;
+using FluentStoredProcedureExtensions.Core.Abstract;
 using FluentStoredProcedureExtensions.Infrastructure.Data;
 using FluentStoredProcedureExtensions.Infrastructure.DataAccess;
 using FluentStoredProcedureExtensions.Infrastructure.DataAccess.Contexts;
-using FluentStoredProcedureExtensions.Infrastructure.DataAccess.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +24,7 @@ namespace FluentStoredProcedureExtensions.WebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("FluentStoredProcedureConnection")));

@@ -42,7 +42,7 @@ namespace FluentStoredProcedureExtensions.Infrastructure.DataAccess.Helpers
                     }, new Employee
                     {
                         Name = "Mace Windu",
-                        Email = "BadMotherfucker@GoodOnes.com"
+                        Email = "MaceWindu@GoodOnes.com"
                     });
 
                 context.SaveChanges();

@@ -16,6 +16,10 @@
     background-color: #f5f5f5;
 }
 
+#employees-table tbody tr {
+    cursor: pointer;
+}
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
