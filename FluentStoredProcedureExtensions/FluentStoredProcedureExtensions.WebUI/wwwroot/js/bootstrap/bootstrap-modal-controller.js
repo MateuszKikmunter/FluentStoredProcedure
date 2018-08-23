@@ -41,10 +41,11 @@
             url: getModalUri(),
             data: ajaxData,
             dataType: "HTML",
-            contentType: "application/json"
-        }).done(function (data) {
-            setModalContent(data);
-            showModal();
+            contentType: "application/json; charset=utf-8",
+            complete: function(data) {
+                setModalContent(data);
+                showModal();
+            }
         });
     };
 

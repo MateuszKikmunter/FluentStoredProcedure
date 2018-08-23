@@ -19,7 +19,6 @@
         buttons: [
             {
                 text: "<i class='fa fa-plus' aria-hidden='true'></i> Add",
-                type: "button",
                 className: "btn btn-outline-success",
                 action: function () {
                     BootstrapModalController.setModalHeaderText("Create");

@@ -35,7 +35,7 @@ namespace FluentStoredProcedureExtensions.Infrastructure.Extensions
         }
         
         /// <summary>
-        /// Works only dbo schema
+        /// Works only with dbo schema
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="storedProcedureName"></param>

@@ -28,6 +28,19 @@ namespace FluentStoredProcedureExtensions.WebUI.Controllers
             return Json(new { data = result });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get(int id)
+        {
+            var employee = await _employeeRepository.GetSingleAsync(id);
+            if (employee == null)
+            {
+                return PartialView("_ManipulateEmployeePartial", new CreateEmployeeViewModel());
+            }
+
+            ViewBag.EployeeId = employee.Id;
+            return PartialView("_ManipulateEmployeePartial", _mapper.Map<EditEmployeeViewModel>(employee));
+        }
+
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] int id)
         {
@@ -86,19 +99,6 @@ namespace FluentStoredProcedureExtensions.WebUI.Controllers
 
             await _employeeRepository.UpdateAsync(employeeToUpdate.Id, _mapper.Map<Employee>(employee));
             return Ok();
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Get(int id)
-        {
-            var employee = await _employeeRepository.GetSingleAsync(id);
-            if (employee == null)
-            {
-                return PartialView("_ManipulateEmployeePartial", new CreateEmployeeViewModel());
-            }
-
-            ViewBag.EployeeId = employee.Id;
-            return PartialView("_ManipulateEmployeePartial", _mapper.Map<EditEmployeeViewModel>(employee));
         }
     }
 }
