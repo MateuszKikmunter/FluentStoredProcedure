@@ -20,6 +20,22 @@
     cursor: pointer;
 }
 
+.form-validation-message {
+    color: #DF691A;
+}
+
+input::-moz-selection {
+    background: #DF691A;
+}
+
+::selection {
+    background: #DF691A;
+}
+
+.selected {
+    background-color: #DF691A !important;
+}
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */

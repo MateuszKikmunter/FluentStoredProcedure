@@ -1,25 +1,55 @@
-﻿// Configure bundling and minification for the project.
-// More info at https://go.microsoft.com/fwlink/?LinkId=808241
-[
+﻿[
   {
-    "outputFileName": "wwwroot/css/site.min.css",
-    // An array of relative input file paths. Globbing patterns supported
+    "outputFileName": "wwwroot/js/employee-index.min.js",
     "inputFiles": [
-      "wwwroot/css/site.css"
-    ]
+      "wwwroot/js/employee-index.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
   },
   {
     "outputFileName": "wwwroot/js/site.min.js",
     "inputFiles": [
       "wwwroot/js/site.js"
     ],
-    // Optionally specify minification options
     "minify": {
       "enabled": true,
       "renameLocals": true
     },
-    // Optionally generate .map file
     "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/data-tables/data-tables-controller.min.js",
+    "inputFiles": [
+      "wwwroot/js/data-tables/data-tables-controller.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/bootstrap/bootstrap-modal-controller.min.js",
+    "inputFiles": [
+      "wwwroot/js/bootstrap/bootstrap-modal-controller.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+
+  //CSS
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/site.css"
+    ]
   },
   {
     "outputFileName": "wwwroot/lib/bootstrap/css/bootstrap.min.css",
@@ -28,6 +58,15 @@
     ],
     "minify": { "enabled": false }
   },
+  {
+    "outputFileName": "wwwroot/lib/bootswatch/css/bootstrap.min.css",
+    "inputFiles": [
+      "node_modules/bootswatch/dist/superhero/bootstrap.min.css"
+    ],
+    "minify": { "enabled": false }
+  },
+
+  //JS
   {
     "outputFileName": "wwwroot/lib/bootstrap/js/bootstrap.min.js",
     "inputFiles": [
@@ -46,5 +85,12 @@
     "inputFiles": [
       "node_modules/popper.js/dist/umd/popper.min.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery-serialize-object/jquery.serialize-object.min.js",
+    "inputFiles": [
+      "node_modules/form-serializer/dist/jquery.serialize-object.min.js"
+    ],
+    "minify": { "enabled": false }
   }
 ]

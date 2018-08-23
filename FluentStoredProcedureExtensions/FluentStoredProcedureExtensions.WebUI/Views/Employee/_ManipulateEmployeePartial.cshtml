@@ -1,0 +1,20 @@
+﻿@using FluentStoredProcedureExtensions.WebUI.ViewModels
+@model FluentStoredProcedureExtensions.WebUI.ViewModels.EmployeeForManipulationViewModel
+
+<form id="manipulate-employee-form" asp-antiforgery="true" data-create-url="/Employee/Create" data-edit-url="/Employee/Update" data-form-action="@(string.IsNullOrWhiteSpace(Model.Name) ? "Create" : "Edit")">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="form-validation-message"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control"/>
+        <span asp-validation-for="Email" class="form-validation-message"></span>
+    </div>
+
+    @if (ViewBag.EployeeId != null)
+    {
+        @Html.HiddenFor(e => (e as EditEmployeeViewModel).Id)
+    }
+</form>

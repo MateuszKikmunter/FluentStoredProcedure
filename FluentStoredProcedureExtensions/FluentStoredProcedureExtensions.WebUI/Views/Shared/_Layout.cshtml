@@ -6,8 +6,7 @@
     <title>Fluent Stored Procedure Extensions</title>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/lib/bootswatch/css/bootstrap.min.css" />
         
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css"/>
         <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.bootstrap4.min.css"/>
@@ -17,13 +16,11 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
               integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
               crossorigin="anonymous" />
+        
+        <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-              crossorigin="anonymous"
-              asp-fallback-href="~/lib/bootstrap/css/bootstrap.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/lib/bootswatch/css/bootstrap.min.css" />
 
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css" />
         <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.bootstrap4.min.css" />
@@ -32,9 +29,9 @@
 
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
               integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
-              crossorigin="anonymous">
-
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+              crossorigin="anonymous" />
+        
+        <link rel="stylesheet" href="~/css/site.css" />
     </environment>
 </head>
 <body>
@@ -45,19 +42,14 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" asp-controller="Home" asp-action="Index">Home<span class="sr-only">(current)</span></a>
-            </li>
-        </ul>
     </div>
 </nav>
     <div class="container-fluid body-content">
         @RenderBody()
     </div>
 
-    <footer class="footer container-fluid">
-        <span class="text-muted">&copy Company - Your free to use it as an project starter templated for Bootstrap 4.</span>
+    <footer class="footer container-fluid bg-dark">
+        <span class="text-muted"><a href="https://bitbucket.org/mateusz_kikmunter">&copy Mateusz Kikmunter @DateTime.Now.Year</a></span>
     </footer>
 
     <environment include="Development">

@@ -8,8 +8,12 @@ namespace FluentStoredProcedureExtensions.WebUI.MapperProfiles
     {
         public MainProfile()
         {
-            CreateMap<Employee, EmployeeForManipulationViewModel>();
-            CreateMap<EmployeeForManipulationViewModel, Employee>();
+            CreateMap<Employee, EditEmployeeViewModel>();
+            CreateMap<EditEmployeeViewModel, Employee>();
+
+            CreateMap<Employee, CreateEmployeeViewModel>();
+            CreateMap<CreateEmployeeViewModel, Employee>();
+
             CreateMap<Employee, EmployeeViewModel>();
         }
     }

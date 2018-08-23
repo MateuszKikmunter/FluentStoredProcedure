@@ -1,8 +1,9 @@
 ﻿
+<partial name="_CrudModalPartial" />
 
 <div class="card">
     <div class="card-header">Employees</div>
-    <div class="card-body">
+    <div id="employees-table-container" class="card-body" data-action-url="/Home/">
 
         <table id="employees-table" class="table table-hover">
             <thead>
@@ -17,74 +18,9 @@
 </div>
 
 @section Scripts{
-    <script>
-        $(document).ready(function () {
-            let dtOptions = {
-                processing: true,
-                responsive: true,
-                select: { style: "single" },
-                dom: "Bftrip",
-                ajax: {
-                    url: "/Home/GetEmployees",
-                    type: "GET",
-                    dataType: "JSON"
-                },
-                language: { processing: "<i class='fa fa-cog fa-spin fa-4x fa-fw'></i>" },
-                rowId: "id",
-                columns: [
-                    { data: "id" },
-                    { data: "name" },
-                    { data: "email" }
-                ],
-                buttons: [
-                    {
-                        text: "<i class='fa fa-plus' aria-hidden='true'></i> Add",
-                        className: "btn btn-success",
-                        action: function () {
-                        }
-                    },
-                    {
-                        text: "<i class='fa fa-edit' aria-hidden='true'></i> Edit",
-                        className: "btn btn-info",
-                        action: function (e, dt, node, config) {
-                        }
-                    },
-                    {
-                        text: "<i class='fa fa-trash' aria-hidden='true'></i> Delete",
-                        className: "btn btn-danger",
-                        action: function (e, dt, node, config) {
-                            let selectedRows = getSelectedRows(dt);
-                            if (!selectedRows.length) {
-                                alert("Please select employee to delete");
-                                return;
-                            }
-
-                            if (confirm("Are you sure?")) {
-                                $.ajax({
-                                    url: "/Home/",
-                                    type: "DELETE",
-                                    dataType: "JSON",
-                                    contentType: "application/json; charset=utf-8",
-                                    data: JSON.stringify(selectedRows[0].id),
-                                    complete: function (xhr) {
-                                        if (xhr.status === 200) {
-                                            $("#employees-table").DataTable().ajax.reload();
-                                        } else {
-                                            alert(`Something went wrong. Error: ${xhr.status} - ${xhr.statusText}`);
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    }
-                ]
-            };
-
-            $("#employees-table").DataTable(dtOptions);
-
-            let getSelectedRows = function (table) {
-                return table.rows(".selected").data().map(row => row);
-            };
-        });
-    </script>
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/jquery-serialize-object/jquery.serialize-object.min.js"></script>
+    <script src="~/js/bootstrap/bootstrap-modal-controller.min.js"></script>
+    <script src="~/js/data-tables/data-tables-controller.min.js"></script>
+    <script src="~/js/employee-index.min.js"></script>
 }
