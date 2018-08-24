@@ -1,5 +1,5 @@
 ﻿var BootstrapModalController = function () {
-    var onModalClose;
+    var controllerOptions;
 
     var appendModalLarge = function (isModalLarge) {
         if (isModalLarge) {
@@ -42,8 +42,8 @@
             data: ajaxData,
             dataType: "HTML",
             contentType: "application/json; charset=utf-8",
-            complete: function(data) {
-                setModalContent(data);
+            complete: function (data) {
+                setModalContent(data.responseText);
                 showModal();
             }
         });
@@ -65,8 +65,9 @@
         getModalInstance().modal("hide");
     };
 
-    var initialize = function (modalUri) {
-        getModalInstance().attr("data-modal-uri", modalUri);
+    var initialize = function (bootstrapControllerOptions) {
+        controllerOptions = bootstrapControllerOptions;
+        getModalInstance().attr("data-modal-uri", bootstrapControllerOptions.modalUri);
         attachEventsToControls();
     };
 
@@ -83,8 +84,8 @@
             contentType: "application/json; charset=utf-8",
             complete: function (xhr) {
                 xhr.status === 200 ? hideModal() : failed(xhr);
-                if (onModalClose) {
-                    onModalClose();
+                if (controllerOptions.onSaveCallback) {
+                    controllerOptions.onSaveCallback();
                 }
             }
         });
@@ -96,10 +97,6 @@
 
     var setModalHeaderText = function (text) {
         getModalInstance().find(".modal-title").text(text);
-    };
-
-    var setOnModalCloseCallback = function (callback) {
-        onModalClose = callback;
     };
 
     var showModal = function () {
@@ -117,7 +114,6 @@
         getModal: getModal,
         hideModal: hideModal,
         initialize: initialize,
-        setModalHeaderText: setModalHeaderText,
-        setOnModalCloseCallback: setOnModalCloseCallback
+        setModalHeaderText: setModalHeaderText
     };
 }();

@@ -12,9 +12,19 @@
         $(`#${tableId}`).DataTable().ajax.reload();
     };
 
+    var renderAsNumber = function() {
+        return $.fn.dataTable.render.number();
+    };
+
+    var renderAsText = function() {
+        return $.fn.dataTable.render.text();
+    };
+
     return {
         initialize: initialize,
         getSelectedRows: getSelectedRows,
-        reloadTable: reloadTable
+        reloadTable: reloadTable,
+        renderAsNumber: renderAsNumber,
+        renderAsText: renderAsText
     };
 }();

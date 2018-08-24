@@ -12,9 +12,9 @@
         language: { processing: "<i class='fa fa-cog fa-spin fa-4x fa-fw'></i>" },
         rowId: "id",
         columns: [
-            { data: "id" },
-            { data: "name" },
-            { data: "email" }
+            { data: "id", render: DataTablesController.renderAsText() },
+            { data: "name", render: DataTablesController.renderAsText() },
+            { data: "email", render: DataTablesController.renderAsText() }
         ],
         buttons: [
             {
@@ -69,8 +69,10 @@
     };
 
     DataTablesController.initialize("employees-table", dtOptions);
-    BootstrapModalController.initialize("/Employee/Get/");
-    BootstrapModalController.setOnModalCloseCallback(function () {
-        DataTablesController.reloadTable("employees-table");
+    BootstrapModalController.initialize({
+        modalUri: "/Employee/Get/",
+        onSaveCallback: function () {
+            return DataTablesController.reloadTable("employees-table");
+        }
     });
 });
