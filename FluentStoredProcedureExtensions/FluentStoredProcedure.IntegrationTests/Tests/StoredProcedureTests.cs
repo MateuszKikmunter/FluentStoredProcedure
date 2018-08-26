@@ -9,12 +9,11 @@ using FluentStoredProcedureExtensions.Core.Abstract;
 using FluentStoredProcedureExtensions.Infrastructure.Data;
 using FluentStoredProcedureExtensions.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
 
 namespace FluentStoredProcedure.IntegrationTests.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class StoredProcedureTests
     {
         private ApplicationDbContext _context;

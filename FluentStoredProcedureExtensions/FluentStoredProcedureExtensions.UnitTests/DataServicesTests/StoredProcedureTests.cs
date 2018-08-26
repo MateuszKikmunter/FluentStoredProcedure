@@ -16,14 +16,12 @@ namespace FluentStoredProcedureExtensions.UnitTests.DataServicesTests
     public class StoredProcedureTests
     {
         private Mock<ISqlParameterFactory> _mockSqlParameterFactory;
-        private Mock<IStoredProcedureFactory> _mockStoredProcedureFactory;
         private IStoredProcedure _storedProcedure;
 
         [SetUp]
         public void SetUp()
         {
             _mockSqlParameterFactory = new Mock<ISqlParameterFactory>();
-            _mockStoredProcedureFactory = new Mock<IStoredProcedureFactory>();
             _storedProcedure = new StoredProcedure(_mockSqlParameterFactory.Object);
             _storedProcedure.SetStoredProcedureText("uspHighPerformatStoredProcedure");
 

@@ -37,7 +37,7 @@ namespace FluentStoredProcedureExtensions.WebUI.Controllers
                 return PartialView("_ManipulateEmployeePartial", new CreateEmployeeViewModel());
             }
 
-            ViewBag.EployeeId = employee.Id;
+            ViewBag.EmployeeId = employee.Id;
             return PartialView("_ManipulateEmployeePartial", _mapper.Map<EditEmployeeViewModel>(employee));
         }
 
