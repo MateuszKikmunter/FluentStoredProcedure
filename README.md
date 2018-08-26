@@ -12,11 +12,11 @@ Change mdf file path to your local path, so integration tests can be run without
 
 ```c#
  public async Task<Employee> GetSingleAsync(int id)
- {
-    var procedure = _storedProcedureFactory.CreateStoredProcedure("GetEmployee").WithSqlParam("Id", id);
-    var result = await _context.FromSqlAsync<Employee>(procedure);
-    return result.FirstOrDefault();
- }
+        {
+            var procedure = _storedProcedureFactory.CreateStoredProcedure("GetEmployee").WithSqlParam("Id", id);
+            var result = await _context.FromSqlAsync<Employee>(procedure);
+            return result.FirstOrDefault();
+        }
 ```
 
 
