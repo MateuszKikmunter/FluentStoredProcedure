@@ -3,6 +3,9 @@
 Collection of classes and extension methods which allows to call stored procedures in a fluent way. 
 Data in this project is mainly fetched with stored procedures just to present usage of those classes.
 
+Working demo:
+https://fluent-stored-procedure.azurewebsites.net/
+
 ## Before running this project
 
 Please restore all nugets and node packages and set web project as startup project.
